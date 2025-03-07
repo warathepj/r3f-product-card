@@ -65,7 +65,7 @@ export default function GamePage() {
         <ProductCard 
           position={[0, 0, 0]} 
           rotation={[0, 0, 0]} 
-          scale={1.2}
+          scale={.6}
           productData={product}
         />
         <OrbitControls maxDistance={5} minDistance={1} />

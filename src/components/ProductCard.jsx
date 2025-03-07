@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Text } from '@react-three/drei'
 import { Game } from './Game'
 
@@ -12,6 +12,7 @@ const ProductCard = ({
 }) => {
   const titleRef = useRef()
   const priceRef = useRef()
+  const [hovered, setHovered] = useState(false)
 
   const handleClick = (event) => {
     event.stopPropagation()
@@ -26,7 +27,16 @@ const ProductCard = ({
       rotation={rotation} 
       scale={scale}
       onClick={handleClick}
-      style={{ cursor: 'pointer' }}
+      onPointerOver={(e) => {
+        e.stopPropagation()
+        setHovered(true)
+        document.body.style.cursor = 'pointer'
+      }}
+      onPointerOut={(e) => {
+        e.stopPropagation()
+        setHovered(false)
+        document.body.style.cursor = 'auto'
+      }}
     >
       {/* Product title */}
       <group ref={titleRef}>
@@ -40,7 +50,11 @@ const ProductCard = ({
       </group>
 
       {/* Game model */}
-      <Game scale={0.018} position={[0, -1.2, 0]} />
+      <Game 
+        scale={0.018} 
+        position={[0, -1.2, 0]}
+        hovered={hovered} // Optional: pass hovered state to Game component if you want to add hover effects
+      />
 
       {/* Product price */}
       <group ref={priceRef}>
