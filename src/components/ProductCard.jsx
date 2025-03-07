@@ -1,48 +1,55 @@
 import React, { useRef } from 'react'
-import { useFrame } from '@react-three/fiber'
-import { Cylinder, Text } from '@react-three/drei'
-import { Cube } from './Cube'
-import { AxesHelper } from 'three'
+import { Text } from '@react-three/drei'
+import { Game } from './Game'
 
-const ProductCard = ({ position = [0, 0, 0], rotation = [0, 0, 0], scale = 1 }) => {
-  const meshRef = useRef()
+const ProductCard = ({ 
+  position = [0, 0, 0], 
+  rotation = [0, 0, 0], 
+  scale = 1.3,
+  productId = 1,
+  productData,
+  onClick
+}) => {
   const titleRef = useRef()
   const priceRef = useRef()
 
-  useFrame((state, delta) => {
-    meshRef.current.rotation.y += delta * 0.5
-    if (titleRef.current && priceRef.current) {
-      titleRef.current.rotation.y = -meshRef.current.rotation.y
-      priceRef.current.rotation.y = -meshRef.current.rotation.y
+  const handleClick = (event) => {
+    event.stopPropagation()
+    if (onClick) {
+      onClick(productId)
     }
-  })
+  }
 
   return (
-    <group ref={meshRef} position={position} rotation={rotation} scale={scale}>
-      <primitive object={new AxesHelper(2)} />
-
+    <group 
+      position={position} 
+      rotation={rotation} 
+      scale={scale}
+      onClick={handleClick}
+      style={{ cursor: 'pointer' }}
+    >
       {/* Product title */}
       <group ref={titleRef}>
         <Text
-          position={[0, 1.5, 0.15]}
-          fontSize={0.3}
+          position={[0, 2.2, 0]}
+          fontSize={0.35}
           color="#000000"
         >
-          Product Name
+          {productData ? productData.name : "Game Boy Classic"}
         </Text>
       </group>
 
-      {/* Add Cube component */}
-      <Cube />
+      {/* Game model */}
+      <Game scale={0.018} position={[0, -1.2, 0]} />
 
       {/* Product price */}
       <group ref={priceRef}>
         <Text
-          position={[0, -1.5, 0.15]}
-          fontSize={0.25}
+          position={[0, -2, 0]}
+          fontSize={0.3}
           color="#000000"
         >
-          $99.99
+          ${productData ? productData.price : "149.99"}
         </Text>
       </group>
     </group>
