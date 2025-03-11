@@ -4,7 +4,7 @@ import { useGLTF } from '@react-three/drei'
 
 export function Game({ scale = 1, rotation = [0, 0, 0], position = [0, 0, 0] }) {
   const groupRef = useRef()
-  const { nodes, materials } = useGLTF('/src/assets/game/scene.gltf')
+  const { nodes, materials } = useGLTF('https://warathepj.github.io/product-card-model/scene.gltf')
 
   useFrame((state, delta) => {
     if (groupRef.current) {
@@ -38,5 +38,5 @@ export function Game({ scale = 1, rotation = [0, 0, 0], position = [0, 0, 0] }) 
 // Add credit information as per license requirements
 Game.credit = `Model: "Game Boy | 3D Model Low-Poly" by ItsKevin (https://sketchfab.com/ItsKevin) licensed under CC-BY-4.0`
 
-// Preload the model
-useGLTF.preload('/src/assets/game/scene.gltf')
+// Preload the model from the new URL
+useGLTF.preload('https://warathepj.github.io/product-card-model/scene.gltf')
